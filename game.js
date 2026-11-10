@@ -13,12 +13,87 @@ const rangeDescription = document.querySelector("#range-description");
 const footerRange = document.querySelector("#footer-range");
 const roundStatus = document.querySelector("#round-status");
 const guessButton = form.querySelector("button[type='submit']");
+const leaderboardList = document.querySelector("#leaderboard-list");
+const leaderboardStatus = document.querySelector("#leaderboard-status");
+const leaderboardStorageKey = "number-room-leaderboard-v1";
 
 let secretNumber;
 let attempts;
 let maxNumber = Number(difficultySelect.value);
 let gameStarted = false;
 let roundComplete = true;
+let leaderboard = loadLeaderboard();
+
+function compareScores(first, second) {
+  return second.score - first.score || first.attempts - second.attempts;
+}
+
+function loadLeaderboard() {
+  try {
+    const savedScores = JSON.parse(localStorage.getItem(leaderboardStorageKey) || "[]");
+    if (!Array.isArray(savedScores)) return [];
+
+    return savedScores
+      .filter((entry) => Number.isFinite(entry.score) && entry.score > 0
+        && Number.isInteger(entry.attempts) && entry.attempts > 0
+        && typeof entry.difficulty === "string")
+      .sort(compareScores)
+      .slice(0, 5);
+  } catch {
+    leaderboardStatus.textContent = "Local storage is unavailable in this browser.";
+    return [];
+  }
+}
+
+function renderLeaderboard() {
+  leaderboardList.replaceChildren();
+  if (leaderboard.length === 0) {
+    const emptyMessage = document.createElement("li");
+    emptyMessage.className = "leaderboard-empty";
+    emptyMessage.textContent = "Win a round to post your first score.";
+    leaderboardList.append(emptyMessage);
+    return;
+  }
+
+  leaderboard.forEach((entry, index) => {
+    const row = document.createElement("li");
+    row.className = "leaderboard-entry";
+
+    const rank = document.createElement("span");
+    rank.className = "leaderboard-rank";
+    rank.textContent = String(index + 1).padStart(2, "0");
+
+    const score = document.createElement("span");
+    score.className = "leaderboard-score";
+    score.textContent = `${entry.score.toLocaleString()} pts`;
+
+    const details = document.createElement("span");
+    details.className = "leaderboard-details";
+    details.textContent = `${entry.difficulty} · ${entry.attempts} ${entry.attempts === 1 ? "guess" : "guesses"}`;
+
+    row.append(rank, score, details);
+    leaderboardList.append(row);
+  });
+}
+
+function recordScore() {
+  const score = Math.round(1000 / attempts);
+  const entry = {
+    score,
+    attempts,
+    difficulty: difficultySelect.selectedOptions[0].textContent.split(" ")[0],
+    playedAt: Date.now()
+  };
+
+  leaderboard = [...leaderboard, entry].sort(compareScores).slice(0, 5);
+  try {
+    localStorage.setItem(leaderboardStorageKey, JSON.stringify(leaderboard));
+    leaderboardStatus.textContent = `Saved ${score.toLocaleString()} points to this browser.`;
+  } catch {
+    leaderboardStatus.textContent = "Could not save this score in local storage.";
+  }
+  renderLeaderboard();
+}
 
 function updateDifficultyDisplay() {
   maxNumber = Number(difficultySelect.value);
@@ -95,6 +170,7 @@ form.addEventListener("submit", (event) => {
     feedback.textContent = `You got it in ${attempts} ${attempts === 1 ? "guess" : "guesses"}!`;
     feedback.dataset.state = "won";
     addHistoryEntry(guess, "Correct!", "won");
+    recordScore();
     roundComplete = true;
     input.disabled = true;
     guessButton.disabled = true;
@@ -121,6 +197,7 @@ startGameButton.addEventListener("click", startRound);
 restartButton.addEventListener("click", startRound);
 
 updateDifficultyDisplay();
+renderLeaderboard();
 difficultySelect.addEventListener("change", () => {
   updateDifficultyDisplay();
   if (!gameStarted || roundComplete) {

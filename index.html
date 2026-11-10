@@ -25,14 +25,14 @@
         <section class="play-panel" aria-labelledby="game-title">
           <p class="eyebrow">A LITTLE LOGIC, A LITTLE LUCK</p>
           <h1 id="game-title">Find the<br><span>hidden number.</span></h1>
-          <p id="range-description" class="intro">There’s a number between 1 and 50. Make a guess and follow the clues.</p>
+          <p id="range-description" class="intro">There’s a number between 1 and 100. Make a guess and follow the clues.</p>
 
           <div class="difficulty-controls">
             <label for="difficulty-select">Choose difficulty</label>
             <div class="difficulty-row">
               <select id="difficulty-select" name="difficulty">
                 <option value="50">Easy (1-50)</option>
-                <option value="100">Medium (1-100)</option>
+                <option value="100" selected>Medium (1-100)</option>
                 <option value="500">Hard (1-500)</option>
               </select>
               <button id="start-game-button" class="start-game-button" type="button">Start game <span aria-hidden="true">↗</span></button>
@@ -40,7 +40,7 @@
           </div>
 
           <div id="range-display" class="range-display" aria-label="The number range for this difficulty">
-            <div class="range-labels"><span>01</span><span>THE RANGE</span><span id="range-upper">50</span></div>
+            <div class="range-labels"><span>01</span><span>THE RANGE</span><span id="range-upper">100</span></div>
             <div class="range-track" aria-hidden="true">
               <span class="range-fill"></span>
               <span class="range-pin"></span>
@@ -50,7 +50,7 @@
           <form id="guess-form" class="guess-form" novalidate>
             <label for="guess-input">Your guess</label>
             <div class="guess-controls">
-              <input id="guess-input" name="guess" type="number" min="1" max="50" inputmode="numeric" placeholder="?" autocomplete="off" required aria-describedby="feedback" disabled>
+              <input id="guess-input" name="guess" type="number" min="1" max="100" inputmode="numeric" placeholder="?" autocomplete="off" required aria-describedby="feedback" disabled>
               <button class="guess-button" type="submit" disabled>Make a guess <span aria-hidden="true">↗</span></button>
             </div>
             <p id="feedback" class="feedback" role="status" aria-live="polite">Choose a difficulty, then start the game.</p>
@@ -78,9 +78,23 @@
           </button>
           <p class="panel-note">A fresh number, every round.</p>
         </aside>
+
+        <section class="leaderboard-panel" aria-labelledby="leaderboard-title">
+          <div class="leaderboard-heading">
+            <div>
+              <p class="eyebrow">BEST ROUNDS</p>
+              <h2 id="leaderboard-title">Local leaderboard</h2>
+            </div>
+            <span class="leaderboard-badge">TOP 5</span>
+          </div>
+          <ol id="leaderboard-list" class="leaderboard-list" aria-label="Top five scores">
+            <li class="leaderboard-empty">Win a round to post your first score.</li>
+          </ol>
+          <p id="leaderboard-status" class="leaderboard-status" role="status" aria-live="polite">Scores are saved in this browser.</p>
+        </section>
       </div>
 
-      <footer class="footer-note"><span id="footer-range">01—50</span><span>TAKE YOUR BEST SHOT</span><span>EST. RIGHT NOW</span></footer>
+      <footer class="footer-note"><span id="footer-range">01—100</span><span>TAKE YOUR BEST SHOT</span><span>EST. RIGHT NOW</span></footer>
     </main>
   </body>
 </html>

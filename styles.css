@@ -215,6 +215,31 @@ button:focus-visible, a:focus-visible {
   animation: rise-in 650ms 180ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
+.leaderboard-panel {
+  grid-column: 1 / -1;
+  min-width: 0;
+  padding: 24px 26px 18px;
+  background: var(--white);
+  border: 1px solid #e0e4dd;
+  border-top: 4px solid var(--yellow);
+  border-radius: 4px;
+  box-shadow: 8px 8px 0 #e7e9e1;
+  animation: rise-in 650ms 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.leaderboard-heading { display: flex; align-items: flex-start; justify-content: space-between; padding-bottom: 15px; border-bottom: 1px solid var(--line); }
+.leaderboard-heading .eyebrow { margin-bottom: 7px; }
+.leaderboard-heading h2 { margin: 0; font-size: 20px; font-weight: 600; }
+.leaderboard-badge { padding: 6px 8px; color: #705d1b; background: #f7f0d7; font-family: "DM Mono", Consolas, monospace; font-size: 10px; }
+.leaderboard-list { margin: 0; padding: 0; list-style: none; }
+.leaderboard-empty { padding: 17px 0; color: #89938d; font-size: 13px; }
+.leaderboard-entry { display: grid; grid-template-columns: 48px minmax(100px, 0.5fr) minmax(0, 1fr); align-items: center; gap: 12px; min-height: 46px; border-bottom: 1px solid #edf0ea; animation: appear 180ms ease-out both; }
+.leaderboard-entry:last-child { border-bottom: 0; }
+.leaderboard-rank { color: #929a95; font-family: "DM Mono", Consolas, monospace; font-size: 11px; }
+.leaderboard-score { min-width: 0; color: var(--green); font-family: "DM Mono", Consolas, monospace; font-size: 14px; font-weight: 500; overflow-wrap: anywhere; }
+.leaderboard-details { min-width: 0; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.leaderboard-status { min-height: 14px; margin: 12px 0 0; color: #929a95; font-family: "DM Mono", Consolas, monospace; font-size: 9px; }
+
 .history-heading { display: flex; align-items: flex-start; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
 .history-heading .eyebrow { margin-bottom: 8px; }
 .history-heading h2 { margin: 0; font-size: 20px; font-weight: 600; }
@@ -285,8 +310,12 @@ button:focus-visible, a:focus-visible {
   .play-panel { padding: 26px 20px; }
   .difficulty-row { grid-template-columns: minmax(0, 1fr); }
   .start-game-button { justify-content: center; }
-  .guess-controls { grid-template-columns: minmax(84px, 0.4fr) minmax(0, 1fr); gap: 8px; }
+  .guess-controls { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   .guess-button { gap: 6px; padding: 0 9px; font-size: 11px; }
+  .leaderboard-panel { padding: 22px 18px 16px; }
+  .leaderboard-entry { grid-template-columns: 28px minmax(0, 0.75fr) minmax(0, 1fr); gap: 6px; }
+  .leaderboard-score { font-size: 12px; }
+  .leaderboard-details { font-size: 11px; }
   .footer-note { flex-wrap: wrap; font-size: 8px; letter-spacing: 0.3px; }
 }
 
