@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>Number Room | Guess the number</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="game.js" defer></script>
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="topbar">
+        <a class="wordmark" href="./" aria-label="Number Room home">
+          <span class="brand-mark" aria-hidden="true">?</span>
+          <span>NUMBER ROOM</span>
+        </a>
+        <span class="round-label"><span class="live-dot" aria-hidden="true"></span> ROUND IN PROGRESS</span>
+      </header>
+
+      <div class="game-layout">
+        <section class="play-panel" aria-labelledby="game-title">
+          <p class="eyebrow">A LITTLE LOGIC, A LITTLE LUCK</p>
+          <h1 id="game-title">Find the<br><span>hidden number.</span></h1>
+          <p class="intro">There’s a number between 1 and 100. Make a guess and follow the clues.</p>
+
+          <div class="range-display" aria-label="The hidden number is between 1 and 100">
+            <div class="range-labels"><span>01</span><span>THE RANGE</span><span>100</span></div>
+            <div class="range-track" aria-hidden="true">
+              <span class="range-fill"></span>
+              <span class="range-pin"></span>
+            </div>
+          </div>
+
+          <form id="guess-form" class="guess-form" novalidate>
+            <label for="guess-input">Your guess</label>
+            <div class="guess-controls">
+              <input id="guess-input" name="guess" type="number" min="1" max="100" inputmode="numeric" placeholder="?" autocomplete="off" required aria-describedby="feedback">
+              <button class="guess-button" type="submit">Make a guess <span aria-hidden="true">↗</span></button>
+            </div>
+            <p id="feedback" class="feedback" role="status" aria-live="polite">Enter a number from 1 to 100 to begin.</p>
+          </form>
+
+          <div class="attempt-strip">
+            <span class="attempt-label">ATTEMPTS</span>
+            <span id="attempt-count" class="attempt-count" aria-live="polite">0</span>
+          </div>
+        </section>
+
+        <aside class="history-panel" aria-labelledby="history-title">
+          <div class="history-heading">
+            <div>
+              <p class="eyebrow">YOUR TRAIL</p>
+              <h2 id="history-title">Guess history</h2>
+            </div>
+            <span id="history-total" class="history-total">00</span>
+          </div>
+          <ol id="guess-history" class="guess-history" aria-label="Previous guesses">
+            <li class="history-empty">Your guesses will show up here.</li>
+          </ol>
+          <button id="restart-button" class="restart-button" type="button">
+            <span aria-hidden="true">↻</span> Start a new round
+          </button>
+          <p class="panel-note">A fresh number, every round.</p>
+        </aside>
+      </div>
+
+      <footer class="footer-note"><span>01—100</span><span>TAKE YOUR BEST SHOT</span><span>EST. RIGHT NOW</span></footer>
+    </main>
+  </body>
+</html>
