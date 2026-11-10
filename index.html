@@ -18,7 +18,24 @@
           <span class="brand-mark" aria-hidden="true">?</span>
           <span>NUMBER ROOM</span>
         </a>
-        <span class="round-label"><span class="live-dot" aria-hidden="true"></span> <span id="round-status">CHOOSE A DIFFICULTY</span></span>
+        <div class="header-tools">
+          <label class="theme-control" for="theme-select">
+            <span>Theme</span>
+            <select id="theme-select" aria-label="Choose color theme">
+              <option value="grove">Grove</option>
+              <option value="ocean">Ocean</option>
+              <option value="sunset">Sunset</option>
+            </select>
+          </label>
+          <button id="dark-mode-button" class="mode-button" type="button" aria-pressed="false">
+            <span aria-hidden="true">☾</span> Dark mode
+          </button>
+          <label class="sound-control" for="sound-toggle">
+            <input id="sound-toggle" type="checkbox">
+            <span>Sound</span>
+          </label>
+          <span class="round-label"><span class="live-dot" aria-hidden="true"></span> <span id="round-status">CHOOSE A DIFFICULTY</span></span>
+        </div>
       </header>
 
       <div class="game-layout">
@@ -57,8 +74,14 @@
           </form>
 
           <div class="attempt-strip">
-            <span class="attempt-label">ATTEMPTS</span>
-            <span id="attempt-count" class="attempt-count" aria-live="polite">0</span>
+            <div class="attempt-stat">
+              <span class="attempt-label">ATTEMPTS</span>
+              <span id="attempt-count" class="attempt-count" aria-live="polite">0</span>
+            </div>
+            <div id="timer-display" class="timer-stat" role="timer" aria-label="Time remaining">
+              <span class="attempt-label">TIME LEFT</span>
+              <span id="timer-count" class="timer-count">60<span>s</span></span>
+            </div>
           </div>
         </section>
 
