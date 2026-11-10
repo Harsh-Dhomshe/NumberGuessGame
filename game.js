@@ -5,15 +5,35 @@ const attemptCount = document.querySelector("#attempt-count");
 const historyList = document.querySelector("#guess-history");
 const historyTotal = document.querySelector("#history-total");
 const restartButton = document.querySelector("#restart-button");
+const difficultySelect = document.querySelector("#difficulty-select");
+const startGameButton = document.querySelector("#start-game-button");
+const rangeUpper = document.querySelector("#range-upper");
+const rangeDisplay = document.querySelector("#range-display");
+const rangeDescription = document.querySelector("#range-description");
+const footerRange = document.querySelector("#footer-range");
+const roundStatus = document.querySelector("#round-status");
 const guessButton = form.querySelector("button[type='submit']");
 
 let secretNumber;
 let attempts;
-let roundComplete;
+let maxNumber = Number(difficultySelect.value);
+let gameStarted = false;
+let roundComplete = true;
+
+function updateDifficultyDisplay() {
+  maxNumber = Number(difficultySelect.value);
+  rangeUpper.textContent = String(maxNumber);
+  rangeDisplay.setAttribute("aria-label", `The hidden number is between 1 and ${maxNumber}`);
+  rangeDescription.textContent = `There’s a number between 1 and ${maxNumber}. Make a guess and follow the clues.`;
+  footerRange.textContent = `01—${maxNumber}`;
+  input.max = String(maxNumber);
+}
 
 function startRound() {
-  secretNumber = Math.floor(Math.random() * 100) + 1;
+  updateDifficultyDisplay();
+  secretNumber = Math.floor(Math.random() * maxNumber) + 1;
   attempts = 0;
+  gameStarted = true;
   roundComplete = false;
   attemptCount.textContent = "0";
   historyTotal.textContent = "00";
@@ -22,11 +42,16 @@ function startRound() {
   emptyMessage.className = "history-empty";
   emptyMessage.textContent = "Your guesses will show up here.";
   historyList.append(emptyMessage);
-  feedback.textContent = "Enter a number from 1 to 100 to begin.";
+  feedback.textContent = `Enter a number from 1 to ${maxNumber}.`;
   feedback.dataset.state = "";
   input.value = "";
+  input.max = String(maxNumber);
   input.disabled = false;
   guessButton.disabled = false;
+  difficultySelect.disabled = true;
+  startGameButton.hidden = true;
+  restartButton.disabled = false;
+  roundStatus.textContent = "ROUND IN PROGRESS";
   input.focus();
 }
 
@@ -52,11 +77,11 @@ function addHistoryEntry(guess, result, state) {
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-  if (roundComplete) return;
+  if (!gameStarted || roundComplete) return;
 
   const guess = Number(input.value);
-  if (!input.value || !Number.isInteger(guess) || guess < 1 || guess > 100) {
-    feedback.textContent = "Enter a whole number from 1 to 100.";
+  if (!input.value || !Number.isInteger(guess) || guess < 1 || guess > maxNumber) {
+    feedback.textContent = `Enter a whole number from 1 to ${maxNumber}.`;
     feedback.dataset.state = "error";
     input.focus();
     return;
@@ -73,6 +98,10 @@ form.addEventListener("submit", (event) => {
     roundComplete = true;
     input.disabled = true;
     guessButton.disabled = true;
+    difficultySelect.disabled = false;
+    startGameButton.hidden = false;
+    startGameButton.firstChild.textContent = "Start another game ";
+    roundStatus.textContent = "ROUND COMPLETE";
     restartButton.focus();
   } else if (guess < secretNumber) {
     feedback.textContent = "Too low. Try a higher number.";
@@ -88,6 +117,13 @@ form.addEventListener("submit", (event) => {
   if (!roundComplete) input.focus();
 });
 
+startGameButton.addEventListener("click", startRound);
 restartButton.addEventListener("click", startRound);
 
-startRound();
+updateDifficultyDisplay();
+difficultySelect.addEventListener("change", () => {
+  updateDifficultyDisplay();
+  if (!gameStarted || roundComplete) {
+    feedback.textContent = `Ready for ${difficultySelect.selectedOptions[0].text}. Start when you are ready.`;
+  }
+});

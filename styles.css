@@ -125,6 +125,19 @@ h1 span { color: var(--green); }
 .range-fill { position: absolute; inset: 0; background: linear-gradient(90deg, var(--green) 0%, #72a27d 50%, var(--yellow) 100%); }
 .range-pin { position: absolute; top: 50%; left: 50%; width: 18px; height: 18px; transform: translate(-50%, -50%); background: var(--white); border: 3px solid var(--ink); border-radius: 50%; box-shadow: 0 0 0 3px rgb(255 254 250 / 45%); }
 
+.difficulty-controls { margin: 0 0 27px; }
+.difficulty-controls > label { display: block; margin-bottom: 9px; font-size: 13px; font-weight: 600; }
+.difficulty-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(120px, auto); gap: 9px; }
+.difficulty-row select { width: 100%; min-width: 0; height: 48px; padding: 0 12px; color: var(--ink); background: #f5f7f1; border: 1px solid #cbd4cc; border-radius: 4px; font-size: 13px; font-weight: 600; }
+.difficulty-row select:focus { border-color: var(--green); outline: 3px solid rgb(32 94 76 / 13%); }
+.difficulty-row select:disabled { color: var(--muted); opacity: 0.75; }
+.start-game-button { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 14px; color: #fff; background: var(--coral); border: 0; border-radius: 4px; font-size: 13px; font-weight: 700; box-shadow: 0 3px 0 #bd503a; transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
+.start-game-button:hover { background: #d75f46; transform: translateY(-2px); box-shadow: 0 5px 0 #ad4734; }
+.start-game-button:active { transform: translateY(1px); box-shadow: 0 1px 0 #ad4734; }
+.start-game-button[hidden] { display: none; }
+.start-game-button span { color: #ffe6a0; font-size: 18px; }
+button:disabled { cursor: default; opacity: 0.55; }
+
 .guess-form label { display: block; margin-bottom: 9px; font-size: 13px; font-weight: 600; }
 .guess-controls { display: grid; grid-template-columns: minmax(90px, 0.55fr) minmax(170px, 1fr); gap: 10px; }
 
@@ -270,6 +283,8 @@ button:focus-visible, a:focus-visible {
   .game-shell { width: calc(100% - 28px); }
   .round-label { font-size: 8px; letter-spacing: 0.5px; }
   .play-panel { padding: 26px 20px; }
+  .difficulty-row { grid-template-columns: minmax(0, 1fr); }
+  .start-game-button { justify-content: center; }
   .guess-controls { grid-template-columns: minmax(84px, 0.4fr) minmax(0, 1fr); gap: 8px; }
   .guess-button { gap: 6px; padding: 0 9px; font-size: 11px; }
   .footer-note { flex-wrap: wrap; font-size: 8px; letter-spacing: 0.3px; }
